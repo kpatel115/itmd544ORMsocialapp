@@ -48,8 +48,8 @@ model Comment {
   updated_at          DateTime    @updatedAt
   published           Boolean     @default(false)
   view_count          Int         @default(0)
-  commenter           User?       @relation("UserToComment", fields: [name], references: [user_id])
-  commenter_id        User?       @relation("UserToComment", fields: [user_id])
-  commented_post      Post?       @relation("PostToComment", fields: [content], references: [post_id])
+  commenter           User?       @relation("UserToComment", fields: [commenter_id], references: [user_id])
+  commenter_id        Int?
+  commented_post      Post?       @relation("PostToComment", fields: [commented_post_id], references: [post_id])
   commented_post_id   Int?
 }
