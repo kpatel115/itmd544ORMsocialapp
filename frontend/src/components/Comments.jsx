@@ -1,26 +1,40 @@
-// src/components/UserList.jsx
-import React, { useEffect, useState } from 'react';
-import { fetchComments } from '../api/api';
+import React from 'react';
+import { useQuery, gql } from '@apollo/client';
+
+const GET_COMMENTS = gql`
+  query getComments {
+    comments {
+      id
+      content
+      post {
+        id
+        title
+      }
+      user {
+        id
+        name
+      }
+    }
+  }
+`;
 
 const Comments = () => {
-    const [comments, setComments] = useState([]);
+  const { loading, error, data } = useQuery(GET_COMMENTS);
 
-    useEffect(() => {
-        fetchComments()
-            .then(response => setComments(response.data))
-            .catch(error => console.error('Error fetching users:', error));
-    }, []);
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error loading comments!</p>;
 
-    return (
-        <div>
-            <h1>Comments</h1>
-            <ul>
-                {comments.map(comment => (
-                    <li key={comment.title}>{comment.content}</li> // Adjust according to your user attributes
-                ))}
-            </ul>
+  return (
+    <div>
+      <h1>Comments</h1>
+      {data.comments.map(({ id, content, post, user }) => (
+        <div key={id}>
+          <p>{content}</p>
+          <p>Comment on: {post.title} by {user.name}</p>
         </div>
-    );
+      ))}
+    </div>
+  );
 };
 
 export default Comments;

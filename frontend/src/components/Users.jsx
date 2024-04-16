@@ -1,41 +1,34 @@
-// src/components/UserList.jsx
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useQuery, gql } from '@apollo/client';
-import { fetchUsers } from '../api/api';
-const getUsers = gql`
+
+const GET_USERS = gql`
   query getUsers {
     getUsers {
-      user_id
+      id
       name
       email
     }
   }
 `;
+
 const Users = () => {
-    // const [users, setUsers] = useState([]);
-    const { loading, error, data } = useQuery(getUsers);
+  const { loading, error, data } = useQuery(GET_USERS);
 
-    if (loading) return <p>Loading...</p>;
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error loading users!</p>;
 
-
-    // useEffect(() => {
-    //     fetchUsers()
-    //         .then(response => setUsers(response.data))
-    //         .catch(error => console.error('Error fetching users:', error));
-    // }, []);
-
-    return (
-        <div>
-            <h1>Users</h1>
-            <ul>
-            {data.getUsers.map(({ id, name, email }) => (
-                <li key={id}>
-                    {name} - {email}
-                </li>
+  return (
+    <div>
+      <h1>Users</h1>
+      <ul>
+        {data.getUsers.map(({ id, name, email }) => (
+          <li key={id}>
+            {name} - {email}
+          </li>
         ))}
       </ul>
-        </div>
-    );
-  };
+    </div>
+  );
+};
 
 export default Users;
