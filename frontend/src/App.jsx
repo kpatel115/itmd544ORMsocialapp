@@ -12,7 +12,7 @@ function App() {
     <Router>
       <div>
         <Routes>
-          <Route path="/" element={<Users />} />
+          <Route path="/users" element={<Users />} />
           <Route path="/posts" element={<Posts />} />
           <Route path="/comments" element={<Comments />} />
         </Routes>
