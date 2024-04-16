@@ -1,9 +1,9 @@
 // src/api/api.js
 import axios from 'axios';
 
-const API_URL = 'http://localhost:4000'; // Adjust to your actual API URL
+const API_URL = 'http://localhost:4000/graphql'; // Adjust to your actual API URL
 
-export const fetchUsers = () => axios.get(`${API_URL}/api/users`);
+export const fetchUsers = () => axios.get(`${API_URL}/users`);
 export const fetchPosts = () => axios.get(`${API_URL}/posts`);
 export const fetchComments = () => axios.get(`${API_URL}/comments`);
 // Add more CRUD functions here as needed for creating, updating, and deleting

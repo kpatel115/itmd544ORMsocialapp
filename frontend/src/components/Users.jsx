@@ -2,9 +2,9 @@ import React from 'react';
 import { useQuery, gql } from '@apollo/client';
 
 const GET_USERS = gql`
-  query getUsers {
-    getUsers {
-      id
+  query allUsers {
+    allUsers {
+      user_id
       name
       email
     }
@@ -17,12 +17,15 @@ const Users = () => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error loading users!</p>;
 
+  // Ensure data is accessed correctly
+  if (!data || !data.allUsers) return <p>No data found!</p>;
+
   return (
     <div>
       <h1>Users</h1>
       <ul>
-        {data.getUsers.map(({ id, name, email }) => (
-          <li key={id}>
+        {data.allUsers.map(({ user_id, name, email }) => (
+          <li key={user_id}>
             {name} - {email}
           </li>
         ))}
