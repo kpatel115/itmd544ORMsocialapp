@@ -122,7 +122,7 @@ export const resolvers = {
     },
     getUser: (_parent, args: { id: number }, context: Context) => {
       return context.prisma.user.findUnique({
-        where: { id: args.id || undefined },
+        where: { user_id: args.id || undefined },
       })
     },
     allUsers: (_parent, _args, context: Context) => {
@@ -130,7 +130,7 @@ export const resolvers = {
     },
     postById: (_parent, args: { id: number }, context: Context) => {
       return context.prisma.post.findUnique({
-        where: { id: args.id || undefined },
+        where: { post_id: args.id || undefined },
       })
     },
     feed: (
@@ -159,7 +159,7 @@ export const resolvers = {
         },
         take: args?.take,
         skip: args?.skip,
-        orderBy: args?.orderBy,
+        // orderBy: args?.orderBy,
       })
     },
     draftsByUser: (
@@ -170,7 +170,7 @@ export const resolvers = {
       return context.prisma.user
         .findUnique({
           where: {
-            id: args.userUniqueInput.id || undefined,
+            user_id: args.userUniqueInput.id || undefined,
             email: args.userUniqueInput.email || undefined,
           },
         })
@@ -223,14 +223,14 @@ export const resolvers = {
     ) => {
       try {
         const post = await context.prisma.post.findUnique({
-          where: { id: args.id || undefined },
+          where: { post_id: args.id || undefined },
           select: {
             published: true,
           },
         })
 
         return context.prisma.post.update({
-          where: { id: args.id || undefined },
+          where: { post_id: args.id || undefined },
           data: { published: !post?.published },
         })
       } catch (error) {
@@ -245,7 +245,7 @@ export const resolvers = {
       context: Context,
     ) => {
       return context.prisma.post.update({
-        where: { id: args.id || undefined },
+        where: { post_id: args.id || undefined },
         data: {
           viewCount: {
             increment: 1,
@@ -264,7 +264,7 @@ export const resolvers = {
     },
     deletePost: (_parent, args: { id: number }, context: Context) => {
       return context.prisma.post.delete({
-        where: { id: args.id },
+        where: { post_id: args.id },
       })
     },
   },
@@ -273,7 +273,7 @@ export const resolvers = {
     author: (parent, _args, context: Context) => {
       return context.prisma.post
         .findUnique({
-          where: { id: parent?.id },
+          where: { post_id: parent?.id },
         })
         .author()
     },
@@ -282,7 +282,7 @@ export const resolvers = {
     posts: (parent, _args, context: Context) => {
       return context.prisma.user
         .findUnique({
-          where: { id: parent?.id },
+          where: { user_id: parent?.id },
         })
         .posts()
     },
