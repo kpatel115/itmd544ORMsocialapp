@@ -53,7 +53,7 @@ export const typeDefs = `
     signupUser(data: UserCreateInput!): User!
     togglePublishPost(id: Int!): Post
     createUser(name: String!, email: String!): User!
-    updateUser(id: Int!, name: String, email: String): User
+    updateUser(id: Int!, name: String, email: String): User!
     deleteUser(id: Int!): User
     createPost(title: String!, content: String, author_id: Int!): Post!
     updatePost(id: Int!, title: String, content: String): Post
@@ -310,8 +310,8 @@ interface PostCreateInput {
 
 interface UserCreateInput {
   email: string
-  name?: string
-  posts?: PostCreateInput[]
+  name: string
+  posts: PostCreateInput[]
 }
 
 export const schema = createSchema({

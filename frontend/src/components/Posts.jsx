@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery, gql } from '@apollo/client';
 
 const GET_POSTS = gql`
   query getPosts {
-    posts {
+    getPosts {
       id
       title
       content
@@ -17,6 +17,11 @@ const GET_POSTS = gql`
 
 const Posts = () => {
   const { loading, error, data } = useQuery(GET_POSTS);
+  const [displayPosts, setDisplayPosts] = useState(false);
+
+  const handleButtonPostClick = () => {
+    setDisplayPosts(true)
+  }
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error loading posts!</p>;
@@ -24,6 +29,9 @@ const Posts = () => {
   return (
     <div>
       <h1>Posts</h1>
+      <button onClick={handleButtonPostClick}>Get Posts</button>
+      {displayPosts && (
+      <ul>
       {data.posts.map(({ id, title, content, user }) => (
         <div key={id}>
           <h3>{title}</h3>
@@ -31,6 +39,8 @@ const Posts = () => {
           <p>Posted by: {user.name}</p>
         </div>
       ))}
+      </ul>
+      )}
     </div>
   );
 };
